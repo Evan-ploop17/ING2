@@ -25,6 +25,7 @@ public class Empleado extends javax.swing.JFrame {
     
     ConexionSQL cc=new ConexionSQL();
     Connection con=cc.conexion();
+   
     
     public Empleado() {
         initComponents();
@@ -186,13 +187,13 @@ public class Empleado extends javax.swing.JFrame {
 
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane1.setViewportView(jTable1);
@@ -236,40 +237,8 @@ public class Empleado extends javax.swing.JFrame {
     }//GEN-LAST:event_txtNumeroKeyTyped
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-      /*  String nombre, numero, direccion;
-        nombre = txtNombre.getText();
-        numero = txtNumero.getText();
-        direccion = txtDireccion.getText();
-        
-        
-        // HACE QUE TODOS LOS CAMPOS DEBAN SER DILEGENCIADOS 
-        if ((txtNombre.getText().equals("")) || (txtNumero.getText().equals("")) || 
-            (txtDireccion.getText().equals("")))
-        {
-            javax.swing.JOptionPane.showMessageDialog(this, "Debe rellenar todos los campos " , " AVISO! ", javax.swing.JOptionPane.INFORMATION_MESSAGE);
-            
-        } else {
-            try
-            {
-                String url = "jdbc:mysql://localhost:3306/nomina";
-                String usuario = "root";
-                String contraseña = "Extra12345";
-                
-                Class.forName("com.mysql.jdbc.Driver").newInstance();
-                con = DriverManager.getConnection(url, usuario, contraseña);
-                if (con != null )
-                    System.out.println("Se ha establecido conexion abase de datos.. " + "\n" + url);
-                stmt = con.createStatement();
-                stmt.executeUpdate("INSERT INTO nomina VALUES('"+0+"' , '"+nombre+"' , '"+numero+"', '"direccion"' )");
-                System.out.println("Los valores han sio agregados a la base de datos ");
-            } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SQLException ex) {
-                Logger.getLogger(Empleado.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }*/
-        
         insertarDatos();
-        
+        limpiarCajas();
     }//GEN-LAST:event_jButton1ActionPerformed
 
   
@@ -294,13 +263,15 @@ public class Empleado extends javax.swing.JFrame {
         }
     }
     
-    
-    /*} catch (Exception e)
+    public void limpiarCajas()
     {
-        JOptionPane.showMessageDialog(null, "Error de registro" + e.getMessage());
+        txtNombre.setText("");
+        txtNumero.setText("");
+        txtDireccion.setText("");
     }
-    */
-  
+    
+    
+ 
         
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

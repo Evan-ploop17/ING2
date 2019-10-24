@@ -32,6 +32,7 @@ public class Empleado extends javax.swing.JFrame {
     public Empleado() {
         initComponents();
         this.setLocationRelativeTo(null);
+        mostrarDatos();
     }
 
 
@@ -106,8 +107,18 @@ public class Empleado extends javax.swing.JFrame {
         jButton2.setText("Buscar");
 
         jButton3.setText("Actualizar");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
 
         jButton4.setText("Eliminar");
+        jButton4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton4ActionPerformed(evt);
+            }
+        });
 
         txtId.setEditable(false);
         txtId.setBackground(new java.awt.Color(204, 204, 204));
@@ -211,6 +222,11 @@ public class Empleado extends javax.swing.JFrame {
 
             }
         ));
+        tablaEmpleado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tablaEmpleadoMouseClicked(evt);
+            }
+        });
         jScrollPane2.setViewportView(tablaEmpleado);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -256,7 +272,33 @@ public class Empleado extends javax.swing.JFrame {
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         insertarDatos();
         limpiarCajas();
+        mostrarDatos();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void tablaEmpleadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tablaEmpleadoMouseClicked
+        // TODO add your handling code here:
+        
+        int filaSeleccionada = tablaEmpleado.rowAtPoint(evt.getPoint());
+        
+        txtNombre.setText(tablaEmpleado.getValueAt(filaSeleccionada,1).toString());
+        txtNumero.setText(tablaEmpleado.getValueAt(filaSeleccionada,2).toString());
+        txtDireccion.setText(tablaEmpleado.getValueAt(filaSeleccionada,3).toString());
+        txtCargo.setText(tablaEmpleado.getValueAt(filaSeleccionada,4).toString());
+        
+    }//GEN-LAST:event_tablaEmpleadoMouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        actualizarDatos();
+        limpiarCajas();
+        mostrarDatos();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton4ActionPerformed
+        // TODO add your handling code here:
+        eliminarRegistro();
+        limpiarCajas();
+        mostrarDatos();
+    }//GEN-LAST:event_jButton4ActionPerformed
 
   
     
@@ -298,7 +340,7 @@ public class Empleado extends javax.swing.JFrame {
         
         DefaultTableModel modelo = new DefaultTableModel(null,titulos);
         
-        String SQL = "select * from table empleados";
+        String SQL = "select * from empleado";
         
         try{
              Statement st = con.createStatement();
@@ -321,9 +363,50 @@ public class Empleado extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(null, " Error al mostrar datos " + e.getMessage());
         }
     }
+     public void actualizarDatos()
+    {
+        try
+        {
+            String SQL = "update empleado set nombre=?, numero=?, direccion=?, cargo_idcargo=? where idempleado=?";
+           
+            int filaSeleccionada=tablaEmpleado.getSelectedRow();
+            String dao=(String)tablaEmpleado.getValueAt(filaSeleccionada, 0);
+            
+            PreparedStatement pst = con.prepareStatement(SQL);
+            
+            pst.setString (1, txtNombre.getText());
+            pst.setString (2, txtNumero.getText());
+            pst.setString (3, txtDireccion.getText());
+            pst.setString (4, txtCargo.getText());
+
+            pst.setString(5, dao);
+            pst.execute();
+             
+            JOptionPane.showMessageDialog(null, "Registro Editado ");
+            
+         } catch (SQLException | HeadlessException e) {
+            JOptionPane.showMessageDialog(null, "Error al editar registro " + e.getMessage());
+        }
+    }
     
-    
- 
+     public void eliminarRegistro(){
+         
+         int filaSeleccionada = tablaEmpleado.getSelectedRow();
+         
+         try {
+             String SQL = "delete from empleado where idempleado="+tablaEmpleado.getValueAt(filaSeleccionada, 0);
+             Statement st=con.createStatement(); 
+             int n=st.executeUpdate(SQL);
+             
+             if (n>=0) {
+                 JOptionPane.showMessageDialog(null, "Registro Eliminado ");
+             }
+             
+         } catch (Exception e) {
+             JOptionPane.showMessageDialog(null, "Error al elimiar el registro " + e.getMessage());
+
+         }
+     }
         
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

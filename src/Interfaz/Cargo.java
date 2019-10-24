@@ -27,6 +27,8 @@ ConexionSQL cc=new ConexionSQL();
     
     public Cargo() {
         initComponents();
+        this.setLocationRelativeTo(null);
+
     }
 
     /**

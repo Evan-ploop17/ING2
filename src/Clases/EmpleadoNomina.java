@@ -1,43 +1,45 @@
+
 package Clases;
 
 
-public class EmpleadoPlanilla extends Empleados{
+public class EmpleadoNomina extends Empleados{
     
-    int cantHijos;
-
+    private String ruc;
     
-    public EmpleadoPlanilla(){
-        
+    public EmpleadoNomina(){
     }
-    
-    public EmpleadoPlanilla(String nombre, String apellido, String dni, int horasTrabajas, int pagoHora) {
+
+    public EmpleadoNomina(String nombre, String apellido, String dni, int horasTrabajas, int pagoHora, String ruc) {
         super(nombre, apellido, dni, horasTrabajas, pagoHora);
-        this.cantHijos = cantHijos;
+        this.ruc = ruc;
     }
     
-    //Metodo de la clase
     
-    public double bonoHijos(){
-        
-        if (cantHijos > 0 && cantHijos <= 2)
-        {
-            return sueldoBruto() * 0.02;
-        }else if (cantHijos > 0 && cantHijos <= 2)
-        {
-            return sueldoBruto() * 0.04;
-        }
-        return 0.0;
+    public String getRuc() {
+        return ruc;
     }
 
+    public void setRuc(String ruc) {
+        this.ruc = ruc;
+    }
+    
+    
+    
     
     
     @Override
     public double sueldoBruto() {
-        return getHorasTrabajadas() * getPagoHora();
+        return getHorasTrabajadas() + getPagoHora();
     }
-    
-        @Override
-    public double  horasExtras() {
+
+    @Override
+    public double sueldoNeto() {
+        return  sueldoBruto() + horasExtras();
+    }
+
+    @Override
+    public double horasExtras() {
+        
         int horasExtras = getHorasTrabajadas() - 45;
       
         if (getHorasTrabajadas() > 45)
@@ -50,24 +52,22 @@ public class EmpleadoPlanilla extends Empleados{
         }
     }
 
-    
     @Override
-    public double sueldoNeto() {
-        return  sueldoBruto() + horasExtras() + bonoHijos();
-    }
-    
-    @Override
-    public String print(){
+    public String print() {
+        
         return "Empleado Planilla " + "\n" + 
                 "Nombres: " + getNombre() + "\n" +
                 "Apellidos: " + super.getApellido() + "\n" + 
                 "Cedula: " + super.getDni() + "\n" +
+                "RUC: " + this.getRuc() +   "\n" +
                 "                           " + "\n" + 
                 "Resumen de pago: " + "\n" + 
                 "Sueldo bruto: S/ "+ this.sueldoBruto() + "\n" +
-                "Bono por hijos: S/" + this.bonoHijos() + "\n" +
                 "Pago por horas extras: S/" + this.horasExtras() + "\n" +
                 "Sueldo neto: S/" + this.sueldoNeto();
     }
     
-}
+    
+    }
+    
+
